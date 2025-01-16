@@ -1,4 +1,6 @@
 
+using System.ComponentModel.DataAnnotations;
+
 namespace all_spice_dotnet.Models;
 
 public class Recipe
