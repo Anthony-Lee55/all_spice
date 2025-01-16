@@ -28,4 +28,17 @@ public class RecipesController : ControllerBase
       return BadRequest(error.Message);
     }
   }
+
+  // [HttpGet]
+  // public <ActionResult<Recipe>> GetAllRecipes()
+  // {
+  //   try
+  //   {
+
+  //   }
+  //   catch (Exception error)
+  //   {
+  //     return BadRequest(error.Message);
+  //   }
+  // }
 }
