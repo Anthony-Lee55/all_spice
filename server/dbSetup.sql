@@ -20,3 +20,9 @@ CREATE TABLE recipes(
 )
 
 SELECT * FROM recipes;
+
+
+UPDATE recipes 
+SET 
+category = "snack" 
+WHERE id = 3;

@@ -1,6 +1,7 @@
 
 
 
+
 namespace all_spice_dotnet.Services;
 
 public class RecipesService
@@ -26,6 +27,22 @@ public class RecipesService
   internal Recipe GetRecipeById(int recipeId)
   {
     Recipe recipe = _repository.GetRecipeById(recipeId);
+    return recipe;
+  }
+
+  internal Recipe UpdateRecipe(int recipeId, string userId, Recipe recipeUpdateData)
+  {
+    Recipe recipe = GetRecipeById(recipeId);
+
+    if (recipe.CreatorId != userId) throw new Exception("This isn't your recipe, CHEF!");
+
+    recipe.Category = recipeUpdateData.Category ?? recipe.Category;
+    recipe.Title = recipeUpdateData.Title ?? recipe.Title;
+    recipe.Instructions = recipeUpdateData.Instructions ?? recipe.Instructions;
+    recipe.Img = recipeUpdateData.Img ?? recipe.Img;
+
+    _repository.UpdateRecipe(recipe);
+
     return recipe;
   }
 }

@@ -1,6 +1,7 @@
 
 
 
+
 namespace all_spice_dotnet.Repositories;
 
 public class RecipesRepository
@@ -68,5 +69,22 @@ public class RecipesRepository
     }, new { recipeId }).SingleOrDefault();
 
     return recipe;
+  }
+
+  internal void UpdateRecipe(Recipe recipeData)
+  {
+    string sql = @"
+    UPDATE recipes 
+    SET 
+    category = @Category,
+    img = @Img,
+    title = @Title, 
+    instructions = @Instructions 
+    WHERE id = 3;";
+
+    int rowsAffected = _db.Execute(sql, recipeData);
+
+    if (rowsAffected == 0) throw new Exception("Update wasn't successful");
+    if (rowsAffected > 1) throw new Exception("Update wasn't successful");
   }
 }
