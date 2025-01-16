@@ -16,9 +16,18 @@ public class RecipesRepository
     recipes(title, instructions, category, img, creator_id)
     VALUES(@Title, @Instructions, @Category, @Img, @CreatorId);
     
-    SELECT *  FROM recipes WHERE id = LAST_INSERT_ID();";
+    SELECT 
+    recipes.*,
+    accounts.*  
+    FROM recipes
+    JOIN accounts ON recipes.creator_id = accounts.id 
+    WHERE recipes.id = LAST_INSERT_ID();";
 
-    Recipe recipe = _db.Query<Recipe>(sql, recipeData).SingleOrDefault();
+    Recipe recipe = _db.Query(sql, (Recipe recipe, Account account) =>
+    {
+      recipe.Creator = account;
+      return recipe;
+    }, recipeData).SingleOrDefault();
 
     return recipe;
   }
