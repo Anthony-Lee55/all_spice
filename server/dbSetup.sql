@@ -18,3 +18,5 @@ CREATE TABLE recipes(
   category ENUM('breakfast', 'lunch', 'dinner', 'snack', 'dessert') NOT NULL,
   FOREIGN KEY (creator_id) REFERENCES accounts(id) ON DELETE CASCADE
 )
+
+SELECT * FROM recipes;
