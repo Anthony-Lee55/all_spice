@@ -29,16 +29,17 @@ public class RecipesController : ControllerBase
     }
   }
 
-  // [HttpGet]
-  // public <ActionResult<Recipe>> GetAllRecipes()
-  // {
-  //   try
-  //   {
-
-  //   }
-  //   catch (Exception error)
-  //   {
-  //     return BadRequest(error.Message);
-  //   }
-  // }
+  [HttpGet]
+  public ActionResult<Recipe> GetAllRecipes()
+  {
+    try
+    {
+      List<Recipe> recipes = _recipesService.GetAllRecipes();
+      return Ok(recipes);
+    }
+    catch (Exception error)
+    {
+      return BadRequest(error.Message);
+    }
+  }
 }
