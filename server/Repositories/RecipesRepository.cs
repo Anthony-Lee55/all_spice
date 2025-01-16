@@ -87,4 +87,14 @@ public class RecipesRepository
     if (rowsAffected == 0) throw new Exception("Update wasn't successful");
     if (rowsAffected > 1) throw new Exception("Update wasn't successful");
   }
+
+  internal void DeleteRecipe(int recipeId)
+  {
+    string sql = "DELETE FROM recipes WHERE id = @recipeId LIMIT 1;";
+
+    int rowsAffected = _db.Execute(sql, new { recipeId });
+
+    if (rowsAffected == 0) throw new Exception("Delete was Successful!");
+    if (rowsAffected > 1) throw new Exception("Delete was too Successful!");
+  }
 }

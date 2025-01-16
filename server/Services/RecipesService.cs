@@ -45,4 +45,15 @@ public class RecipesService
 
     return recipe;
   }
+
+  internal string DeleteRecipe(int recipeId, string userId)
+  {
+    Recipe recipe = GetRecipeById(recipeId);
+
+    if (recipe.CreatorId != userId) throw new Exception("This isn't your recipe, CHEF!");
+
+    _repository.DeleteRecipe(recipeId);
+
+    return $"Deleted recipe: {recipe.Title}";
+  }
 }
