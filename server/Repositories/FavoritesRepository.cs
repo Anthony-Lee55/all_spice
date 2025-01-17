@@ -1,5 +1,7 @@
 
 
+
+
 namespace all_spice_dotnet.Repositories;
 
 public class FavoritesRepository
@@ -60,5 +62,24 @@ public class FavoritesRepository
     }, new { userId }).ToList();
 
     return favoriteRecipes;
+  }
+
+  internal Favorite GetFavoriteById(int favoriteId)
+  {
+    string sql = "SELECT * FROM favorites WHERE id = @favoriteId;";
+
+    Favorite favorite = _db.Query<Favorite>(sql, new { favoriteId }).SingleOrDefault();
+
+    return favorite;
+  }
+
+  internal void DeleteFavorite(int favoriteId)
+  {
+    string sql = "DELETE FROM favorites WHERE id = @favoriteId;";
+
+    int rowsAffected = _db.Execute(sql, new { favoriteId });
+
+    if (rowsAffected == 0) throw new Exception("Delete was unsuccessful!");
+    if (rowsAffected > 1) throw new Exception("Delete was too unsuccessful!");
   }
 }
