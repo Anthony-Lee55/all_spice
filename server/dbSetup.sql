@@ -39,6 +39,14 @@ INSERT INTO
       FROM ingredients
       WHERE ingredients.id = LAST_INSERT_ID();
 
+
+      SELECT
+      ingredients.*,
+      accounts.*
+      FROM ingredients
+      JOIN accounts ON accounts.id = ingredients.id
+      WHERE recipe_id = 8;
+
 DROP TABLE ingredients;
 
 SELECT * FROM recipes;
