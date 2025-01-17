@@ -49,7 +49,7 @@ public class IngredientsRepository
   internal Ingredient GetIngredientById(int ingredientId)
   {
     string sql = @"
-    SELECT ingredients.* FROM ingredients WHERE ingredients.id= @ingredientId;";
+    SELECT * FROM ingredients WHERE id= @ingredientId;";
 
     Ingredient ingredient = _db.Query<Ingredient>(sql, new { ingredientId }).SingleOrDefault();
 

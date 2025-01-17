@@ -29,6 +29,16 @@ CREATE TABLE ingredients(
   FOREIGN KEY (recipe_id) REFERENCES recipes(id) ON DELETE CASCADE
 );
 
+-- CREATE TABLE favorites(
+--   id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+--   created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+--   updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+--   recipe_id INT NOT NULL,
+--   account_id VARCHAR(255),
+--   FOREIGN KEY BIGINT(recipe_id) REFERENCES ingredients(recipe_id) ON DELETE CASCADE,
+--   FOREIGN KEY BIGINT(account_id) REFERENCES accounts(id) ON DELETE CASCADE,
+-- )
+
 SELECT * FROM ingredients;
 
 INSERT INTO 
