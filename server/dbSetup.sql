@@ -35,11 +35,14 @@ CREATE TABLE favorites(
   updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   recipe_id INT NOT NULL,
   account_id VARCHAR(255),
-  FOREIGN KEY BIGINT(recipe_id) REFERENCES ingredients(recipe_id) ON DELETE CASCADE,
-  FOREIGN KEY BIGINT(account_id) REFERENCES accounts(id) ON DELETE CASCADE,
-)
+  FOREIGN KEY (recipe_id) REFERENCES recipes(id) ON DELETE CASCADE,
+  FOREIGN KEY (account_id) REFERENCES accounts(id) ON DELETE CASCADE
+);
 
 SELECT * FROM ingredients;
+
+DROP TABLE favorites;
+
 
 INSERT INTO 
       ingredients(name, quantity, recipe_id)
@@ -60,6 +63,7 @@ DELETE FROM ingredients WHERE id = 2 LIMIT 1;
 
       SELECT ingredients.* FROM ingredients WHERE ingredients.id= 3;
 
+DROP TABLE ingredients;
 DROP TABLE ingredients;
 
 SELECT * FROM recipes;

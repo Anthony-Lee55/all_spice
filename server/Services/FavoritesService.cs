@@ -1,3 +1,4 @@
+
 namespace all_spice_dotnet.Services;
 
 public class FavoritesService
@@ -7,4 +8,10 @@ public class FavoritesService
     _repository = repository;
   }
   private readonly FavoritesRepository _repository;
+
+  internal Favorite CreateFavorite(Favorite favoriteData)
+  {
+    Favorite favorite = _repository.CreateFavorite(favoriteData);
+    return favorite;
+  }
 }
