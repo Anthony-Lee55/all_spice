@@ -39,6 +39,7 @@ INSERT INTO
       FROM ingredients
       WHERE ingredients.id = LAST_INSERT_ID();
 
+DELETE FROM ingredients WHERE id = 2 LIMIT 1;
 
       SELECT
       ingredients.*,
@@ -47,9 +48,13 @@ INSERT INTO
       JOIN accounts ON accounts.id = ingredients.id
       WHERE recipe_id = 8;
 
+      SELECT ingredients.* FROM ingredients WHERE ingredients.id= 3;
+
 DROP TABLE ingredients;
 
 SELECT * FROM recipes;
+
+SELECT * FROM ingredients WHERE id = 3;
 
 
 UPDATE recipes 

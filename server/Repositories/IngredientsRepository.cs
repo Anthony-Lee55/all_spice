@@ -1,5 +1,7 @@
 
 
+
+
 namespace all_spice_dotnet.Repositories;
 
 public class IngredientsRepository
@@ -42,5 +44,26 @@ public class IngredientsRepository
       return ingredient;
     }, new { recipeId }).ToList();
     return ingredients;
+  }
+
+  internal Ingredient GetIngredientById(int ingredientId)
+  {
+    string sql = @"
+    SELECT ingredients.* FROM ingredients WHERE ingredients.id= @ingredientId;";
+
+    Ingredient ingredient = _db.Query<Ingredient>(sql, new { ingredientId }).SingleOrDefault();
+
+    return ingredient;
+  }
+
+  internal void DeleteIngredient(int ingredientId)
+  {
+    string sql = "DELETE FROM ingredients WHERE id = @ingredientId LIMIT 1;";
+
+    int rowsAffected = _db.Execute(sql, new { ingredientId });
+
+    if (rowsAffected == 0) throw new Exception("Delete was Successful!");
+    if (rowsAffected > 1) throw new Exception("Delete was too Successful!");
+
   }
 }
