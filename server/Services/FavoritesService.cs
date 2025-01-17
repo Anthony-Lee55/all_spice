@@ -16,9 +16,9 @@ public class FavoritesService
     return favoriteRecipe;
   }
 
-  // internal List<FavoriteRecipe> GetAccountFavoriteRecipes(string userId)
-  // {
-  //   List<FavoriteRecipe> favoriteRecipes = _repository.GetAccountFavoriteRecipes(userId);
-  //   return favoriteRecipes;
-  // }
+  internal List<FavoriteRecipe> GetAccountFavoriteRecipes(string userId)
+  {
+    List<FavoriteRecipe> favoriteRecipes = _repository.GetAccountFavoriteRecipes(userId);
+    return favoriteRecipes;
+  }
 }

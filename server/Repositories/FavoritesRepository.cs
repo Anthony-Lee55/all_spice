@@ -14,8 +14,8 @@ public class FavoritesRepository
   {
     string sql = @"
     INSERT INTO
-    favorites(recipe_id)
-    VALUES(@RecipeId);
+    favorites(recipe_id, account_id)
+    VALUES(@RecipeId, @AccountId);
 
       SELECT
       favorites.*, 
@@ -26,11 +26,12 @@ public class FavoritesRepository
       JOIN accounts ON recipes.creator_id = accounts.id
       WHERE favorites.id = LAST_INSERT_ID();";
 
-    FavoriteRecipe favoriteProfile = _db.Query(sql, (Favorite favorite, FavoriteRecipe recipe, Profile creator) =>
+    FavoriteRecipe favoriteProfile = _db.Query(sql, (Favorite favorite, FavoriteRecipe recipe, Profile account) =>
     {
       recipe.Id = favorite.RecipeId;
-      recipe.FavoriteId = favorite.RecipeId;
-      recipe.Creator = creator;
+      recipe.FavoriteId = favorite.Id;
+      recipe.AccountId = favorite.AccountId;
+      recipe.Creator = account;
 
       return recipe;
     }, favoriteData).SingleOrDefault();
@@ -38,25 +39,26 @@ public class FavoritesRepository
     return favoriteProfile;
   }
 
-  // internal List<FavoriteRecipe> GetAccountFavoriteRecipes(string userId)
-  // {
-  //   string sql = @"
-  //     SELECT
-  //     favorites.*,
-  //     recipes.*,
-  //     accounts.*
-  //     FROM favorites
-  //     JOIN recipes ON recipes.id = recipes.id
-  //     JOIN accounts ON accounts.id = recipes.creator_id
-  //     WHERE favorites.account_id = @userId";
+  internal List<FavoriteRecipe> GetAccountFavoriteRecipes(string userId)
+  {
+    string sql = @"
+      SELECT
+      favorites.*,
+      recipes.*,
+      accounts.*
+      FROM favorites
+      JOIN recipes ON favorites.recipe_id = recipes.id
+      JOIN accounts ON accounts.id = recipes.creator_id
+      WHERE favorites.account_id = @userId";
 
-  //   List<FavoriteRecipe> favoriteRecipes = _db.Query(sql, (Favorite favorite, FavoriteRecipe recipe, Profile account) =>
-  //   {
-  //     recipe.AccountId = favorite.AccountId;
-  //     recipe.FavoriteId = favorite.Id;
-  //     recipe.Creator = account;
-  //   }, new { userId }).ToList();
+    List<FavoriteRecipe> favoriteRecipes = _db.Query(sql, (Favorite favorite, FavoriteRecipe recipe, Profile account) =>
+    {
+      recipe.AccountId = favorite.AccountId;
+      recipe.FavoriteId = favorite.Id;
+      recipe.Creator = account;
+      return recipe;
+    }, new { userId }).ToList();
 
-  //   return favoriteRecipes;
-  // }
+    return favoriteRecipes;
+  }
 }

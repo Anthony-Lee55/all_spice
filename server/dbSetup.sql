@@ -43,7 +43,18 @@ SELECT * FROM favorites;
 
 INSERT INTO
     favorites(recipe_id, account_id)
-    VALUES(2, "6758a99b25f750aecd7e2ece");
+    VALUES(5, "6758a99b25f750aecd7e2ece");
+
+
+SELECT
+      favorites.*,
+      recipes.*,
+      accounts.*
+      FROM favorites
+      JOIN recipes ON favorites.recipe_id = recipes.id
+      JOIN accounts ON accounts.id = recipes.creator_id
+      WHERE favorites.account_id = @userId
+
 
       SELECT
       favorites.*,
