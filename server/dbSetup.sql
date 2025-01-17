@@ -39,8 +39,20 @@ CREATE TABLE favorites(
   FOREIGN KEY (account_id) REFERENCES accounts(id) ON DELETE CASCADE
 );
 
-SELECT * FROM ingredients;
+SELECT * FROM favorites;
 
+INSERT INTO
+    favorites(recipe_id, account_id)
+    VALUES(2, "6758a99b25f750aecd7e2ece");
+
+      SELECT
+      favorites.*,
+      accounts.*,
+      recipes.*
+      FROM favorites
+      JOIN recipes ON recipes.id = favorites.recipe_id
+      JOIN accounts ON recipes.creator_id = accounts.id
+      WHERE favorites.id = LAST_INSERT_ID();
 DROP TABLE favorites;
 
 

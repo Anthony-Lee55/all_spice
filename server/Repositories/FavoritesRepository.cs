@@ -1,4 +1,5 @@
 
+
 namespace all_spice_dotnet.Repositories;
 
 public class FavoritesRepository
@@ -9,17 +10,53 @@ public class FavoritesRepository
   }
   private readonly IDbConnection _db;
 
-  internal Favorite CreateFavorite(Favorite favoriteData)
+  internal FavoriteRecipe CreateFavorite(Favorite favoriteData)
   {
     string sql = @"
-      INSERT INTO
-      favorites(recipe_id, account_id)
-      VALUES(@RecipeId, @AccountId);
-      
-      SELECT * FROM favorites WHERE id = LAST_INSERT_ID();";
+    INSERT INTO
+    favorites(recipe_id)
+    VALUES(@RecipeId);
 
-    Favorite favorite = _db.Query<Favorite>(sql, favoriteData).SingleOrDefault();
+      SELECT
+      favorites.*, 
+      recipes.*,
+      accounts.*
+      FROM favorites
+      JOIN recipes ON recipes.id = favorites.recipe_id
+      JOIN accounts ON recipes.creator_id = accounts.id
+      WHERE favorites.id = LAST_INSERT_ID();";
 
-    return favorite;
+    FavoriteRecipe favoriteProfile = _db.Query(sql, (Favorite favorite, FavoriteRecipe recipe, Profile creator) =>
+    {
+      recipe.Id = favorite.RecipeId;
+      recipe.FavoriteId = favorite.RecipeId;
+      recipe.Creator = creator;
+
+      return recipe;
+    }, favoriteData).SingleOrDefault();
+
+    return favoriteProfile;
   }
+
+  // internal List<FavoriteRecipe> GetAccountFavoriteRecipes(string userId)
+  // {
+  //   string sql = @"
+  //     SELECT
+  //     favorites.*,
+  //     recipes.*,
+  //     accounts.*
+  //     FROM favorites
+  //     JOIN recipes ON recipes.id = recipes.id
+  //     JOIN accounts ON accounts.id = recipes.creator_id
+  //     WHERE favorites.account_id = @userId";
+
+  //   List<FavoriteRecipe> favoriteRecipes = _db.Query(sql, (Favorite favorite, FavoriteRecipe recipe, Profile account) =>
+  //   {
+  //     recipe.AccountId = favorite.AccountId;
+  //     recipe.FavoriteId = favorite.Id;
+  //     recipe.Creator = account;
+  //   }, new { userId }).ToList();
+
+  //   return favoriteRecipes;
+  // }
 }
