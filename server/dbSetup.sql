@@ -12,9 +12,9 @@ CREATE TABLE recipes(
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
   updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   creator_id VARCHAR(255) NOT NULL,
-  title TINYTEXT NOT NULL,
-  instructions TEXT,
-  img TEXT NOT NULL,
+  title VARCHAR(255) NOT NULL,
+  instructions VARCHAR(5000),
+  img VARCHAR(1000) NOT NULL,
   category ENUM('breakfast', 'lunch', 'dinner', 'snack', 'dessert') NOT NULL,
   FOREIGN KEY (creator_id) REFERENCES accounts(id) ON DELETE CASCADE
 )
@@ -24,10 +24,22 @@ CREATE TABLE ingredients(
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
   updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   recipe_id INT NOT NULL,
-  name TINYTEXT NOT NULL,
-  quantity TINYINT UNSIGNED NOT NULL,
+  name VARCHAR(255) NOT NULL,
+  quantity VARCHAR(255) NOT NULL,
   FOREIGN KEY (recipe_id) REFERENCES recipes(id) ON DELETE CASCADE
-)
+);
+
+SELECT * FROM ingredients;
+
+INSERT INTO 
+      ingredients(name, quantity, recipe_id)
+      VALUES("corn", 2, 3);
+      SELECT
+      ingredients.*
+      FROM ingredients
+      WHERE ingredients.id = LAST_INSERT_ID();
+
+DROP TABLE ingredients;
 
 SELECT * FROM recipes;
 
