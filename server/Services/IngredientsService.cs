@@ -5,15 +5,24 @@ namespace all_spice_dotnet.Services;
 
 public class IngredientsService
 {
-  public IngredientsService(IngredientsRepository repository)
+  public IngredientsService(IngredientsRepository repository, RecipesService recipesService)
   {
     _repository = repository;
+    _recipesService = recipesService;
   }
   private readonly IngredientsRepository _repository;
+  private readonly RecipesService _recipesService;
 
-  internal Ingredient CreateIngredient(Ingredient ingredientData)
+  internal Ingredient CreateIngredient(Ingredient ingredientData, string userId)
   {
+    Recipe recipe = _recipesService.GetRecipeById(ingredientData.RecipeId);
+
+    if (userId != recipe.CreatorId) throw new Exception("This is not your recipe, chef");
+
+    ingredientData.RecipeId = recipe.Id;
+
     Ingredient ingredient = _repository.CreateIngredient(ingredientData);
+
     return ingredient;
   }
 
@@ -36,7 +45,9 @@ public class IngredientsService
   {
     Ingredient ingredient = GetIngredientById(ingredientId);
 
-    if (ingredient.Creator.Id != userId) throw new Exception("You can not delete this recipe, CHEF!");
+    Recipe recipe = _recipesService.GetRecipeById(ingredient.RecipeId);
+
+    if (recipe.CreatorId != userId) throw new Exception("You can not delete this recipe, CHEF!");
 
     _repository.DeleteIngredient(ingredientId);
 

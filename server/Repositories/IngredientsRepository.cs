@@ -31,25 +31,18 @@ public class IngredientsRepository
   internal List<Ingredient> GetIngredientsForRecipe(int recipeId)
   {
     string sql = @"
-            SELECT
-      ingredients.*,
-      accounts.*
+      SELECT
+      ingredients.*
       FROM ingredients
-      JOIN accounts ON accounts.id = ingredients.id
       WHERE recipe_id = @recipeId";
 
-    List<Ingredient> ingredients = _db.Query(sql, (Ingredient ingredient, Profile account) =>
-    {
-      ingredient.Creator = account;
-      return ingredient;
-    }, new { recipeId }).ToList();
+    List<Ingredient> ingredients = _db.Query<Ingredient>(sql, new { recipeId }).ToList();
     return ingredients;
   }
 
   internal Ingredient GetIngredientById(int ingredientId)
   {
-    string sql = @"
-    SELECT * FROM ingredients WHERE id= @ingredientId;";
+    string sql = "SELECT * FROM ingredients WHERE id = @ingredientId;";
 
     Ingredient ingredient = _db.Query<Ingredient>(sql, new { ingredientId }).SingleOrDefault();
 
@@ -62,8 +55,11 @@ public class IngredientsRepository
 
     int rowsAffected = _db.Execute(sql, new { ingredientId });
 
-    if (rowsAffected == 0) throw new Exception("Delete was Successful!");
-    if (rowsAffected > 1) throw new Exception("Delete was too Successful!");
-
+    switch (rowsAffected)
+    {
+      case 1: return;
+      case 0: throw new Exception("NO ROWS UPDATED");
+      default: throw new Exception($"{rowsAffected} ROWS WERE UPDATED AND THAT IS BAD");
+    }
   }
 }

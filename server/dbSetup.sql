@@ -95,6 +95,9 @@ SELECT * FROM ingredients WHERE id = 3;
 
 
 UPDATE recipes 
-SET 
-category = "snack" 
-WHERE id = 3;
+    SET 
+    category = "dinner",
+    img = "",
+    title = "not real", 
+    instructions = "throw in microwave" 
+    WHERE id = 3;

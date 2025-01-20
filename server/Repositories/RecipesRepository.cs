@@ -80,7 +80,7 @@ public class RecipesRepository
     img = @Img,
     title = @Title, 
     instructions = @Instructions 
-    WHERE id = 3;";
+    WHERE id = @Id LIMIT 1;";
 
     int rowsAffected = _db.Execute(sql, recipeData);
 
@@ -90,7 +90,7 @@ public class RecipesRepository
 
   internal void DeleteRecipe(int recipeId)
   {
-    string sql = "DELETE FROM recipes WHERE id = @recipeId LIMIT 1;";
+    string sql = "DELETE FROM recipes WHERE id = @recipeId;";
 
     int rowsAffected = _db.Execute(sql, new { recipeId });
 
