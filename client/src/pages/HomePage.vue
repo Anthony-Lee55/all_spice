@@ -1,6 +1,23 @@
 <script setup>
 import FoodCard from '@/components/FoodCard.vue';
+import { recipesService } from '@/services/RecipesService';
+import { logger } from '@/utils/Logger';
+import Pop from '@/utils/Pop';
+import { onMounted } from 'vue';
 
+onMounted(() => {
+  getRecipes()
+})
+
+async function getRecipes() {
+  try {
+    await recipesService.getRecipes()
+  }
+  catch (error) {
+    Pop.meow(error);
+    logger.error("GETTING RECIPES", error.message)
+  }
+}
 
 </script>
 
