@@ -1,37 +1,71 @@
 <script setup>
+import FoodCard from '@/components/FoodCard.vue';
+
 
 </script>
 
 <template>
-  <div class="home flex-grow-1 d-flex flex-column align-items-center justify-content-center">
-    <div class="home-card p-5 card align-items-center shadow rounded elevation-3">
-      <img src="@/assets/img/cw-circle-logo.png" alt="CodeWorks Logo"
-        class="rounded-circle">
-      <h1 class="my-5 bg-dark text-white p-3 rounded text-center">
-        Vue 3 Starter
-      </h1>
-    </div>
+  <div class="container">
+    <section class="row">
+      <div class="d-flex justify-content-center">
+        <div class="btn-group col-md-4">
+          <button class="btn left" type="button">Home</button>
+          <button class="btn middle" type="button">My Recipes</button>
+          <button class="btn right" type="button">Favorites</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="row">
+      <div class="col-md-3">
+        <FoodCard />
+      </div>
+    </section>
   </div>
 </template>
 
 <style scoped lang="scss">
-.home {
-  display: grid;
-  height: 80vh;
-  place-content: center;
-  text-align: center;
-  user-select: none;
+.btn {
+  font: inherit;
+  background-color: #f0f0f0;
+  border: 0;
+  color: #6e662766;
+  font-size: 1.15rem;
+  padding: 0.375em 1em;
+  text-shadow: 0 0.0625em 0 #6e662766;
+  box-shadow: inset 0 0.0625em 0 0 #f4f4f4, 0 0.0625em 0 0 #efefef,
+    0 0.125em 0 0 #ececec, 0 0.25em 0 0 #e0e0e0, 0 0.3125em 0 0 #dedede,
+    0 0.375em 0 0 #dcdcdc, 0 0.425em 0 0 #cacaca, 0 0.425em 0.5em 0 #cecece;
+  transition: 0.23s ease;
+  cursor: pointer;
+  font-weight: bold;
+  margin: -1px;
+}
 
-  .home-card {
-    width: clamp(500px, 50vw, 100%);
+.middle {
+  border-radius: 0px;
+}
 
-    >img {
-      height: 200px;
-      max-width: 200px;
-      width: 100%;
-      object-fit: contain;
-      object-position: center;
-    }
-  }
+.right {
+  border-top-right-radius: 0.5em;
+  border-bottom-right-radius: 0.5em;
+}
+
+.left {
+  border-top-left-radius: 0.5em;
+  border-bottom-left-radius: 0.5em;
+}
+
+.btn:active {
+  translate: 0 0.225em;
+  box-shadow: inset 0 0.03em 0 0 #f4f4f4, 0 0.03em 0 0 #efefef,
+    0 0.0625em 0 0 #ececec, 0 0.125em 0 0 #e0e0e0, 0 0.125em 0 0 #dedede,
+    0 0.2em 0 0 #dcdcdc, 0 0.225em 0 0 #cacaca, 0 0.225em 0.375em 0 #cecece;
+  letter-spacing: 0.1em;
+  color: #6e662766;
+}
+
+.btn:focus {
+  color: #6e662766;
 }
 </style>
