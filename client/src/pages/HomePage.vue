@@ -1,9 +1,12 @@
 <script setup>
+import { AppState } from '@/AppState';
 import FoodCard from '@/components/FoodCard.vue';
 import { recipesService } from '@/services/RecipesService';
 import { logger } from '@/utils/Logger';
 import Pop from '@/utils/Pop';
-import { onMounted } from 'vue';
+import { computed, onMounted } from 'vue';
+
+const recipes = computed(() => AppState.recipes)
 
 onMounted(() => {
   getRecipes()
@@ -36,6 +39,7 @@ async function getRecipes() {
     <section class="row">
       <div class="col-md-3">
         <FoodCard />
+        {{ recipes }}
       </div>
     </section>
   </div>
