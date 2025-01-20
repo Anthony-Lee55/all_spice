@@ -1,11 +1,17 @@
 <script setup>
+import { Recipe } from '@/models/Recipe';
+
+
+defineProps({
+  recipe: { type: Recipe, required: true }
+})
 
 </script>
 
 
 <template>
   <div class="card">
-    jkj
+    <p>{{ recipe.title }}</p>
   </div>
 </template>
 

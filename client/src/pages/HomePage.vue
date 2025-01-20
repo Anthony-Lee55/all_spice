@@ -37,9 +37,8 @@ async function getRecipes() {
     </section>
 
     <section class="row">
-      <div class="col-md-3">
-        <FoodCard />
-        {{ recipes }}
+      <div v-for="recipe in recipes" :key="recipe.id" class="col-md-4">
+        <FoodCard :recipe="recipe" />
       </div>
     </section>
   </div>
