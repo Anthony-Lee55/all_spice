@@ -2,6 +2,7 @@
 import { recipesService } from '@/services/RecipesService';
 import { logger } from '@/utils/Logger';
 import Pop from '@/utils/Pop';
+import { Modal } from 'bootstrap';
 import { ref } from 'vue';
 
 
@@ -17,12 +18,18 @@ const editableFormData = ref({
 async function createRecipe() {
   try {
     await recipesService.createRecipe(editableFormData.value)
-  }
-  catch (error) {
+    editableFormData.value = {
+      title: '',
+      category: '',
+      img: ''
+    }
+    Modal.getInstance('#recipeModal').hide()
+  } catch (error) {
     Pop.meow(error);
     logger.log("CREATING RECIPE", error)
   }
 }
+
 </script>
 
 

@@ -8,6 +8,8 @@ class RecipesService{
   async createRecipe(recipeData) {
     const response = await api.post('api/recipes', recipeData)
     logger.log("CREATED RECIPE", response.data)
+    const recipe = new Recipe(response.data)
+    AppState.recipes.unshift(recipe)
   }
   async getRecipes() {
     const response = await api.get('api/recipes')
