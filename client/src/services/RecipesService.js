@@ -5,6 +5,10 @@ import { AppState } from "@/AppState.js"
 
 
 class RecipesService{
+  async createRecipe(recipeData) {
+    const response = await api.post('api/recipes', recipeData)
+    logger.log("CREATED RECIPE", response.data)
+  }
   async getRecipes() {
     const response = await api.get('api/recipes')
     logger.log("GOT RECIPES", response.data)

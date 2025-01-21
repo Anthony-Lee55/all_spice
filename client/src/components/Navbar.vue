@@ -19,6 +19,8 @@ import SearchBar from './SearchBar.vue';
   </nav>
   <div class="container header-img">
     <div class="d-flex justify-content-end">
+      <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#recipeModal"><i
+          class="mdi mdi-plus-circle"></i></button>
       <SearchBar />
       <Login />
     </div>

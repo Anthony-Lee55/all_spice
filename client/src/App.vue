@@ -1,6 +1,7 @@
 <script setup>
 import Navbar from './components/Navbar.vue';
 import { AppState } from './AppState.js';
+import ModalWrapper from './components/ModalWrapper.vue';
 
 </script>
 
@@ -8,11 +9,12 @@ import { AppState } from './AppState.js';
   <header>
     <Navbar />
   </header>
-  <main>
+  <main class="position-relative">
     <router-view />
   </main>
   <!-- <footer class="bg-dark text-light">
   </footer> -->
+  <ModalWrapper />
 </template>
 
 <style lang="scss">
