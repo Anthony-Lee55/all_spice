@@ -1,10 +1,11 @@
 <script setup>
-import { onMounted, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { loadState, saveState } from '../utils/Store.js';
 import Login from './Login.vue';
 import SearchBar from './SearchBar.vue';
+import { AppState } from '@/AppState.js';
 
-
+const account = computed(() => AppState.account)
 
 </script>
 
@@ -19,7 +20,7 @@ import SearchBar from './SearchBar.vue';
   </nav>
   <div class="container header-img">
     <div class="d-flex justify-content-end">
-      <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#recipeModal"><i
+      <button v-if="account" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#recipeModal"><i
           class="mdi mdi-plus-circle"></i></button>
       <SearchBar />
       <Login />
