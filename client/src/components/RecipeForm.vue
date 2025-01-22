@@ -1,9 +1,16 @@
 <script setup>
+import { Account } from '@/models/Account';
 import { recipesService } from '@/services/RecipesService';
 import { logger } from '@/utils/Logger';
 import Pop from '@/utils/Pop';
 import { Modal } from 'bootstrap';
 import { ref } from 'vue';
+import RecipeModal from './RecipeModal.vue';
+
+
+defineProps({
+  account: {type:Account}
+})
 
 
 
@@ -27,6 +34,7 @@ async function createRecipe() {
   } catch (error) {
     Pop.meow(error);
     logger.log("CREATING RECIPE", error)
+    Modal.getInstance('#recipeDetailModal').show()
   }
 }
 
@@ -54,19 +62,18 @@ async function createRecipe() {
       </div>
     </div>
     <div class="d-flex gap-1">
-      <div class="form-floating col-8">
+      <div class="form-floating col-10">
         <input v-model="editableFormData.img" type="url" class="form-control" id="img" placeholder="Image Url..."
           required maxlength="1000">
         <label for="img">Image</label>
-      </div>
-      <div class="text-end col-2">
-        <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Close</button>
       </div>
       <div class="text-end col-2">
         <button class="btn btn-warning" type="submit">Submit</button>
       </div>
     </div>
   </form>
+
+  <RecipeModal/>
 </template>
 
 

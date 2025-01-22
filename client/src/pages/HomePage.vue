@@ -1,6 +1,7 @@
 <script setup>
 import { AppState } from '@/AppState';
 import FoodCard from '@/components/FoodCard.vue';
+import RecipeModal from '@/components/RecipeModal.vue';
 import { recipesService } from '@/services/RecipesService';
 import { logger } from '@/utils/Logger';
 import Pop from '@/utils/Pop';
@@ -9,6 +10,8 @@ import { computed, onMounted } from 'vue';
 const recipes = computed(() => AppState.recipes)
 
 const account = computed(() => AppState.account)
+
+const activeRecipe = computed(()=>AppState.activeRecipe)
 
 onMounted(() => {
   getRecipes()
@@ -46,7 +49,7 @@ async function getRecipes() {
     <button v-if="account" class="btn btn-success m-2 sticky-bottom" data-bs-toggle="modal"
       data-bs-target="#recipeModal"><i class="mdi mdi-plus-circle"></i></button>
   </div>
-
+<RecipeModal/>
 </template>
 
 <style scoped lang="scss">

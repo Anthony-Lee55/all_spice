@@ -1,17 +1,50 @@
 <script setup>
 import { Recipe } from '@/models/Recipe';
 import ModalWrapper from './ModalWrapper.vue';
+import { Account } from '@/models/Account';
+import Pop from '@/utils/Pop';
+import { recipesService } from '@/services/RecipesService';
+import { logger } from '@/utils/Logger';
+import { computed } from 'vue';
+import { AppState } from '@/AppState';
+import RecipeModal from './RecipeModal.vue';
+import { Modal } from 'bootstrap';
+import { ingredientsService } from '@/services/IngredientsService';
 
 
 defineProps({
   recipe: { type: Recipe, required: true }
 })
 
+const activeRecipe = computed(()=>AppState.activeRecipe)
+
+async function getRecipeById(recipeId) {
+  try {
+    await recipesService.getRecipeById(recipeId)
+    getIngredientsForRecipe(recipeId)
+    Modal.getInstance('#recipeDetailModal').show()
+  }
+  catch (error){
+    Pop.meow(error);
+    logger.log("GETTING RECIPE BY ID", error)
+  }
+}
+  
+  async function getIngredientsForRecipe(recipeId){
+try {
+  await ingredientsService.getIngredientsForRecipe(recipeId)
+}
+catch (error){
+  Pop.meow(error);
+  logger.log("GETTING INGREDIENTS FOR RECIPE", error)
+}
+  }
+
 </script>
 
 
 <template>
-  <div data-bs-toggle="modal" data-bs-target="#recipeDetailModal" role="button" class="card shadow-lg d-flex"
+  <div v-if="recipe" @click="getRecipeById(recipe.id)" data-bs-toggle="modal" data-bs-target="#recipeDetailModal" role="button" class="card shadow-lg d-flex"
     :style="{ backgroundImage: `url(${recipe.img})` }">
     <div class="d-flex align-items-start justify-content-between">
       <div class="text-light text-capitalize category">
@@ -35,9 +68,7 @@ defineProps({
       {{ recipe.title }}
     </div>
   </div>
-  <ModalWrapper modalId="recipeDetailModal" modalTitle="Recipe Detail">
-    reco[e ]
-  </ModalWrapper>
+  <RecipeModal/>
 </template>
 
 
@@ -48,6 +79,19 @@ defineProps({
   background-size: cover;
   margin: 1.75em;
   border: none;
+}
+
+.recipe-detail-img {
+  object-fit: cover;
+  object-position: center;
+  width: 100%;
+  aspect-ratio: 1/1;
+  min-height: 30dvh;
+}
+
+.recipe-detail-header {
+  color: #6e662766;
+  text-shadow: 1px 1px rgba(0, 0, 0, 0.361);
 }
 
 .category {

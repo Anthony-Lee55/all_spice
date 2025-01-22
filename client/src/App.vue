@@ -3,6 +3,18 @@ import Navbar from './components/Navbar.vue';
 import { AppState } from './AppState.js';
 import ModalWrapper from './components/ModalWrapper.vue';
 import RecipeForm from './components/RecipeForm.vue';
+import { computed } from 'vue';
+import { Recipe } from './models/Recipe';
+import RecipeModal from './components/RecipeModal.vue';
+
+// const recipes = computed(() => AppState.recipes)
+
+// const account = computed(() => AppState.account)
+
+// const activeRecipe=computed(()=> AppState.activeRecipe)
+
+
+
 
 </script>
 
@@ -17,6 +29,7 @@ import RecipeForm from './components/RecipeForm.vue';
   </footer> -->
   <ModalWrapper modalId="recipeModal" modalTitle="Add Recipe">
     <RecipeForm />
+    <RecipeModal/>
   </ModalWrapper>
 </template>
 
