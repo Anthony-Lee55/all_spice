@@ -1,5 +1,6 @@
 <script setup>
 import { Recipe } from '@/models/Recipe';
+import ModalWrapper from './ModalWrapper.vue';
 
 
 defineProps({
@@ -10,7 +11,8 @@ defineProps({
 
 
 <template>
-  <div class="card shadow-lg d-flex" :style="{ backgroundImage: `url(${recipe.img})` }">
+  <div data-bs-toggle="modal" data-bs-target="#recipeDetailModal" role="button" class="card shadow-lg d-flex"
+    :style="{ backgroundImage: `url(${recipe.img})` }">
     <div class="d-flex align-items-start justify-content-between">
       <div class="text-light text-capitalize category">
         {{ recipe.category }}
@@ -33,6 +35,9 @@ defineProps({
       {{ recipe.title }}
     </div>
   </div>
+  <ModalWrapper modalId="recipeDetailModal" modalTitle="Recipe Detail">
+    reco[e ]
+  </ModalWrapper>
 </template>
 
 

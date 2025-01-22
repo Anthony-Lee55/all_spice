@@ -2,6 +2,7 @@
 import Navbar from './components/Navbar.vue';
 import { AppState } from './AppState.js';
 import ModalWrapper from './components/ModalWrapper.vue';
+import RecipeForm from './components/RecipeForm.vue';
 
 </script>
 
@@ -14,7 +15,9 @@ import ModalWrapper from './components/ModalWrapper.vue';
   </main>
   <!-- <footer class="bg-dark text-light">
   </footer> -->
-  <ModalWrapper />
+  <ModalWrapper modalId="recipeModal" modalTitle="Add Recipe">
+    <RecipeForm />
+  </ModalWrapper>
 </template>
 
 <style lang="scss">

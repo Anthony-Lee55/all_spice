@@ -53,11 +53,14 @@ async function createRecipe() {
         <label for="category">Category</label>
       </div>
     </div>
-    <div class="d-flex gap-2">
-      <div class="form-floating col-10">
+    <div class="d-flex gap-1">
+      <div class="form-floating col-8">
         <input v-model="editableFormData.img" type="url" class="form-control" id="img" placeholder="Image Url..."
           required maxlength="1000">
         <label for="img">Image</label>
+      </div>
+      <div class="text-end col-2">
+        <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Close</button>
       </div>
       <div class="text-end col-2">
         <button class="btn btn-warning" type="submit">Submit</button>

@@ -20,8 +20,8 @@ const account = computed(() => AppState.account)
   </nav>
   <div class="container header-img">
     <div class="d-flex justify-content-end">
-      <button v-if="account" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#recipeModal"><i
-          class="mdi mdi-plus-circle"></i></button>
+      <!-- <button v-if="account" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#recipeModal"><i
+          class="mdi mdi-plus-circle"></i></button> -->
       <SearchBar />
       <Login />
     </div>

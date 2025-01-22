@@ -8,6 +8,8 @@ import { computed, onMounted } from 'vue';
 
 const recipes = computed(() => AppState.recipes)
 
+const account = computed(() => AppState.account)
+
 onMounted(() => {
   getRecipes()
 })
@@ -41,7 +43,10 @@ async function getRecipes() {
         <FoodCard :recipe="recipe" />
       </div>
     </section>
+    <button v-if="account" class="btn btn-success m-2 sticky-bottom" data-bs-toggle="modal"
+      data-bs-target="#recipeModal"><i class="mdi mdi-plus-circle"></i></button>
   </div>
+
 </template>
 
 <style scoped lang="scss">
