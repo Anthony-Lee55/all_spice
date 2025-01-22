@@ -16,7 +16,7 @@ defineProps({
   recipe: { type: Recipe, required: true }
 })
 
-const activeRecipe = computed(()=>AppState.activeRecipe)
+const activeRecipe = computed(() => AppState.activeRecipe)
 
 async function getRecipeById(recipeId) {
   try {
@@ -24,28 +24,28 @@ async function getRecipeById(recipeId) {
     getIngredientsForRecipe(recipeId)
     Modal.getInstance('#recipeDetailModal').show()
   }
-  catch (error){
+  catch (error) {
     Pop.meow(error);
     logger.log("GETTING RECIPE BY ID", error)
   }
 }
-  
-  async function getIngredientsForRecipe(recipeId){
-try {
-  await ingredientsService.getIngredientsForRecipe(recipeId)
-}
-catch (error){
-  Pop.meow(error);
-  logger.log("GETTING INGREDIENTS FOR RECIPE", error)
-}
+
+async function getIngredientsForRecipe(recipeId) {
+  try {
+    await recipesService.getIngredientsForRecipe(recipeId)
   }
+  catch (error) {
+    Pop.meow(error);
+    logger.log("GETTING INGREDIENTS FOR RECIPE", error)
+  }
+}
 
 </script>
 
 
 <template>
-  <div v-if="recipe" @click="getRecipeById(recipe.id)" data-bs-toggle="modal" data-bs-target="#recipeDetailModal" role="button" class="card shadow-lg d-flex"
-    :style="{ backgroundImage: `url(${recipe.img})` }">
+  <div v-if="recipe" @click="getRecipeById(recipe.id)" data-bs-toggle="modal" data-bs-target="#recipeDetailModal"
+    role="button" class="card shadow-lg d-flex" :style="{ backgroundImage: `url(${recipe.img})` }">
     <div class="d-flex align-items-start justify-content-between">
       <div class="text-light text-capitalize category">
         {{ recipe.category }}
@@ -68,7 +68,7 @@ catch (error){
       {{ recipe.title }}
     </div>
   </div>
-  <RecipeModal/>
+  <RecipeModal />
 </template>
 
 

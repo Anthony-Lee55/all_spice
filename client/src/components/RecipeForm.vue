@@ -9,7 +9,7 @@ import RecipeModal from './RecipeModal.vue';
 
 
 defineProps({
-  account: {type:Account}
+  account: { type: Account }
 })
 
 
@@ -31,6 +31,7 @@ async function createRecipe() {
       img: ''
     }
     Modal.getInstance('#recipeModal').hide()
+    Pop.success("You added a new Recipe!😋")
   } catch (error) {
     Pop.meow(error);
     logger.log("CREATING RECIPE", error)
@@ -73,7 +74,7 @@ async function createRecipe() {
     </div>
   </form>
 
-  <RecipeModal/>
+  <RecipeModal />
 </template>
 
 

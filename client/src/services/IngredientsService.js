@@ -5,14 +5,13 @@ import { Ingredient } from "@/models/Ingredient.js"
 
 
 class IngredientsService{
-  async getIngredientsForRecipe(recipeId) {
-    AppState.ingredients = []
-    const response = await api.get(`api/recipes/${recipeId}/ingredients`)
-    logger.log("GOT INGREDIENTS FOR RECIPE", response.data)
-    const ingredients = response.data.map(ingredientPOJO => new Ingredient(ingredientPOJO))
-    AppState.ingredients = ingredients
+  async addIngredient(ingredientData) {
+    const response = await api.post('api/ingredients', ingredientData)
+    logger.log(response.data)
+    // const ingredient 
+  }
   }
 
-}
+
 
 export const ingredientsService = new IngredientsService()

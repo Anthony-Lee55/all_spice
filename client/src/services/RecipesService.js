@@ -2,6 +2,7 @@ import { logger } from "@/utils/Logger.js"
 import { api } from "./AxiosService.js"
 import { Recipe } from "@/models/Recipe.js"
 import { AppState } from "@/AppState.js"
+import { Ingredient } from "@/models/Ingredient.js"
 
 
 class RecipesService{
@@ -25,6 +26,14 @@ class RecipesService{
       const recipe = new Recipe(response.data)
       AppState.activeRecipe = recipe
     }
+
+    async getIngredientsForRecipe(recipeId) {
+      AppState.ingredients = []
+      const response = await api.get(`api/recipes/${recipeId}/ingredients`)
+      logger.log("GOT INGREDIENTS FOR RECIPE", response.data)
+      const ingredients = response.data.map(ingredientPOJO => new Ingredient(ingredientPOJO))
+      AppState.ingredients = ingredients
+}
 }
 
 export const recipesService = new RecipesService()
