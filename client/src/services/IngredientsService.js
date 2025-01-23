@@ -11,7 +11,14 @@ class IngredientsService{
     const ingredient = new Ingredient(response.data)
     AppState.ingredients.push(ingredient)
   }
+
+  async deleteIngredient(ingredientId) {
+    const response = await api.delete(`api/ingredients/${ingredientId}`)
+    logger.log("DELETED INGREDIENT", response.data)
+    const ingredientIndex = AppState.ingredients.findIndex(ingredient => ingredient.id == ingredientId)
+    AppState.ingredients.splice(ingredientIndex, 1)
   }
+}
 
 
 

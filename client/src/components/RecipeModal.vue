@@ -74,6 +74,16 @@ async function deleteRecipe(recipeId) {
     logger.log("DELETING RECIPE", error)
   }
 }
+
+async function deleteIngredient(ingredientId) {
+  try {
+    await ingredientsService.deleteIngredient(ingredientId)
+  }
+  catch (error) {
+    Pop.meow(error);
+    logger.log("DELETING INGREDIENT", error)
+  }
+}
 </script>
 
 
@@ -97,7 +107,9 @@ async function deleteRecipe(recipeId) {
         </div>
         <div v-if="ingredients.length > 0" class="px-4">
           <h5>Ingredients</h5>
-          <div v-for="ingredient in ingredients" :key="ingredient.id" class="mb-2">
+          <div v-for="ingredient in ingredients" :key="ingredient.id" class="mb-2 d-flex align-items-center">
+            <button @click="deleteIngredient(ingredient.id)" v-if="activeRecipe.creatorId == account.id"
+              class="btn text-danger fs-3"><i class="mdi mdi-alpha-x-circle"></i></button>
             <div>
               {{ ingredient.quantity }}
               {{ ingredient.name }}
@@ -116,7 +128,7 @@ async function deleteRecipe(recipeId) {
               <input v-model="editableIngredientData.name" class=" form-control" id="ingredientName" type="text"
                 required>
             </div>
-            <button type="submit" class="btn fs-3 text-success"><i class="mdi mdi-plus-circle"></i></button>
+            <button type="submit" class="btn border-0 fs-3 text-success"><i class="mdi mdi-plus-circle"></i></button>
           </div>
         </form>
         <div v-if="activeRecipe.instructions" class="px-4">
