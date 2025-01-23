@@ -40,6 +40,13 @@ class RecipesService{
       const response = await api.put(`api/recipes/${instructionData.recipeId}`, instructionData)
       logger.log("ADDING INSTRUCTIONS", response.data)
     }
+
+    async deleteRecipe(recipeId) {
+      const response = await api.delete(`api/recipes/${recipeId}`)
+      logger.log("DELETED RECIPE", response.data)
+      const recipeIndex = AppState.recipes.findIndex(recipe => recipe.id == recipeId)
+      AppState.recipes.splice(recipeIndex, 1)
+    }
 }
 
 export const recipesService = new RecipesService()

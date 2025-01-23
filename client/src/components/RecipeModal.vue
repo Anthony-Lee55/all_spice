@@ -62,6 +62,18 @@ async function addInstructions() {
     logger.log("ADDING INSTRUCTION TO RECIPE", error)
   }
 }
+
+async function deleteRecipe(recipeId) {
+  try {
+    const confirm = await Pop.confirm("Do you really want to delete this recipe?")
+    if (!confirm) return
+    await recipesService.deleteRecipe(recipeId)
+  }
+  catch (error) {
+    Pop.meow(error);
+    logger.log("DELETING RECIPE", error)
+  }
+}
 </script>
 
 
@@ -75,14 +87,8 @@ async function addInstructions() {
         <div class="px-4">
           <div class="d-flex justify-content-between align-items-center">
             <h3 class="recipe-detail-header">{{ activeRecipe.title }}</h3>
-            <div v-if="activeRecipe.creatorId == account.id" class="dropdown">
-              <button class="btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                <i class="mdi mdi-dots-horizontal fs-2"></i>
-              </button>
-              <ul class="dropdown-menu">
-                <li><a class="dropdown-item text-danger" href="#">Delete Recipe</a></li>
-              </ul>
-            </div>
+            <button @click="deleteRecipe(activeRecipe.id)" v-if="activeRecipe.creatorId == account.id"
+              class="btn text-danger fs-1" title="Delete Recipe"><i class="mdi mdi-trash-can"></i></button>
           </div>
           <p>by: <span class="text-capitalize">{{ account.name }}</span></p>
         </div>

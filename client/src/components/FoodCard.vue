@@ -16,6 +16,8 @@ defineProps({
   recipe: { type: Recipe, required: true }
 })
 
+const account = computed(() => AppState.account)
+
 const activeRecipe = computed(() => AppState.activeRecipe)
 
 async function getRecipeById(recipeId) {
@@ -39,6 +41,7 @@ async function getIngredientsForRecipe(recipeId) {
     logger.log("GETTING INGREDIENTS FOR RECIPE", error)
   }
 }
+
 
 </script>
 
