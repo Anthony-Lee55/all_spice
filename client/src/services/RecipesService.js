@@ -33,7 +33,13 @@ class RecipesService{
       logger.log("GOT INGREDIENTS FOR RECIPE", response.data)
       const ingredients = response.data.map(ingredientPOJO => new Ingredient(ingredientPOJO))
       AppState.ingredients = ingredients
-}
+    }
+
+      async addInstructions(instructionData ) {
+      AppState.activeRecipe = null
+      const response = await api.put(`api/recipes/${instructionData.recipeId}`, instructionData)
+      logger.log("ADDING INSTRUCTIONS", response.data)
+    }
 }
 
 export const recipesService = new RecipesService()

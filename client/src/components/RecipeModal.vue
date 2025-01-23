@@ -6,6 +6,12 @@ import { Ingredient } from '@/models/Ingredient';
 import { logger } from '@/utils/Logger';
 import Pop from '@/utils/Pop';
 import { ingredientsService } from '@/services/IngredientsService';
+import { recipesService } from '@/services/RecipesService';
+import { Recipe } from '@/models/Recipe';
+
+defineProps({
+  recipe: { type: Recipe, required: true }
+})
 
 const activeRecipe = computed(() => AppState.activeRecipe)
 
@@ -16,6 +22,11 @@ const account = computed(() => AppState.account)
 const editableIngredientData = ref({
   name: '',
   quantity: '',
+  recipeId: null
+})
+
+const editableInstructionData = ref({
+  instructions: '',
   recipeId: null
 })
 
@@ -33,6 +44,22 @@ async function addIngredient() {
   catch (error) {
     Pop.meow(error);
     logger.log("ADDING INGREDIENT TO RECIPE", error)
+  }
+
+}
+async function addInstructions() {
+  try {
+    editableInstructionData.value.recipeId = AppState.activeRecipe.id
+    await recipesService.addInstructions(editableInstructionData.value)
+    editableInstructionData.value =
+    {
+      instructions: '',
+      recipeId: null
+    }
+  }
+  catch (error) {
+    Pop.meow(error);
+    logger.log("ADDING INSTRUCTION TO RECIPE", error)
   }
 }
 </script>
@@ -57,7 +84,7 @@ async function addIngredient() {
               </ul>
             </div>
           </div>
-          <p>by: <span class="text-capitalize">dkjfkdjf</span></p>
+          <p>by: <span class="text-capitalize">{{ account.name }}</span></p>
         </div>
         <div class="text-dark d-flex justify-content-center bg-body-secondary col-lg-2 text-capitalize category">
           {{ activeRecipe.category }}
@@ -71,7 +98,7 @@ async function addIngredient() {
             </div>
           </div>
         </div>
-        <form v-if="activeRecipe.creatorId == account.id" @submit="addIngredient()" action="">
+        <form v-if="activeRecipe.creatorId == account.id" @submit="addIngredient()">
           <div class="d-flex gap-3 align-items-center mx-2">
             <div class="col-4">
               <label for="ingredientQuantity">Ingredient Quantity</label>
@@ -83,7 +110,7 @@ async function addIngredient() {
               <input v-model="editableIngredientData.name" class=" form-control" id="ingredientName" type="text"
                 required>
             </div>
-            <button type="submit" class="btn fs-1 text-success"><i class="mdi mdi-plus-circle"></i></button>
+            <button type="submit" class="btn fs-3 text-success"><i class="mdi mdi-plus-circle"></i></button>
           </div>
         </form>
         <div v-if="activeRecipe.instructions" class="px-4">
@@ -92,6 +119,18 @@ async function addIngredient() {
             {{ activeRecipe.instructions }}
           </div>
         </div>
+        <form v-if="activeRecipe.creatorId == account.id" @submit="addInstructions()">
+          <div class="d-flex gap-3 align-items-center mx-2 py-3">
+            <div class="col-10 form-control">
+              <label for="instruction">Instructions</label>
+              <input v-model="editableInstructionData.instructions" class=" form-control" id="instruction" type="text"
+                required>
+            </div>
+          </div>
+          <div class="d-flex justify-content-end">
+            <button type="submit" class="btn btn-success text-light">Save</button>
+          </div>
+        </form>
       </div>
     </div>
   </ModalWrapper>

@@ -8,7 +8,8 @@ class IngredientsService{
   async addIngredient(ingredientData) {
     const response = await api.post('api/ingredients', ingredientData)
     logger.log(response.data)
-    // const ingredient 
+    const ingredient = new Ingredient(response.data)
+    AppState.ingredients.push(ingredient)
   }
   }
 
