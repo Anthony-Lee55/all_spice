@@ -17,7 +17,7 @@ const props = defineProps({
   recipe: { type: Recipe, required: true }
 })
 
-const hasFavorited = computed(() => AppState.favoriteRecipes.some(favoriteRecipe => favoriteRecipe.id == props.recipe.id))
+const hasFavorited = computed(() => AppState.favoriteRecipes.find(favoriteRecipe => favoriteRecipe.id == props.recipe.id))
 
 const account = computed(() => AppState.account)
 
