@@ -2,16 +2,24 @@
 import { AppState } from '@/AppState';
 import FoodCard from '@/components/FoodCard.vue';
 import RecipeModal from '@/components/RecipeModal.vue';
+import { accountService } from '@/services/AccountService';
 import { recipesService } from '@/services/RecipesService';
 import { logger } from '@/utils/Logger';
 import Pop from '@/utils/Pop';
-import { computed, onMounted } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 
-const recipes = computed(() => AppState.recipes)
+const recipes = computed(() => {
+  if (activeFilterCategory.value == 'home') return AppState.recipes
+  if (activeFilterCategory.value == 'myRecipes') return AppState.recipes.filter(recipe => recipe.creatorId == account.value.id)
+  return AppState.favoriteRecipes
+}
+)
+
+const activeFilterCategory = ref('home')
 
 const account = computed(() => AppState.account)
 
-const activeRecipe = computed(()=>AppState.activeRecipe)
+const activeRecipe = computed(() => AppState.activeRecipe)
 
 onMounted(() => {
   getRecipes()
@@ -27,6 +35,16 @@ async function getRecipes() {
   }
 }
 
+async function getFavoriteRecipes() {
+  try {
+    await accountService.getFavoriteRecipes()
+  }
+  catch (error) {
+    Pop.meow(error);
+    logger.error("GETTING FAVORITE RECIPES", error.message)
+
+  }
+}
 </script>
 
 <template>
@@ -34,9 +52,10 @@ async function getRecipes() {
     <section class="row">
       <div class="d-flex justify-content-center">
         <div class="btn-group col-md-4">
-          <button class="btn left" type="button">Home</button>
-          <button class="btn middle" type="button">My Recipes</button>
-          <button class="btn right" type="button">Favorites</button>
+          <button @click="activeFilterCategory = 'home'" class="btn left" type="button">Home</button>
+          <button @click="activeFilterCategory = 'myRecipes'" class="btn middle" type="button">My Recipes</button>
+          <button @click="getFavoriteRecipes(), activeFilterCategory = 'hello'" class="btn right"
+            type="button">Favorites</button>
         </div>
       </div>
     </section>
@@ -49,7 +68,7 @@ async function getRecipes() {
     <button v-if="account" class="btn btn-success m-2 sticky-bottom" data-bs-toggle="modal"
       data-bs-target="#recipeModal"><i class="mdi mdi-plus-circle"></i></button>
   </div>
-<RecipeModal/>
+  <RecipeModal />
 </template>
 
 <style scoped lang="scss">
