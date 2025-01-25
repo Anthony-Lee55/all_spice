@@ -54,8 +54,7 @@ async function getFavoriteRecipes() {
         <div class="btn-group col-md-4">
           <button @click="activeFilterCategory = 'home'" class="btn left" type="button">Home</button>
           <button @click="activeFilterCategory = 'myRecipes'" class="btn middle" type="button">My Recipes</button>
-          <button @click="getFavoriteRecipes(), activeFilterCategory = 'hello'" class="btn right"
-            type="button">Favorites</button>
+          <button @click="activeFilterCategory = 'hello'" class="btn right" type="button">Favorites</button>
         </div>
       </div>
     </section>

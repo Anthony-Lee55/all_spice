@@ -17,6 +17,8 @@ const props = defineProps({
   recipe: { type: Recipe, required: true }
 })
 
+const hasFavorited = computed(() => AppState.favoriteRecipes.some(favoriteRecipe => favoriteRecipe.id == props.recipe.id))
+
 const account = computed(() => AppState.account)
 
 const activeRecipe = computed(() => AppState.activeRecipe)
@@ -51,6 +53,16 @@ async function createFavorite() {
   catch (error) {
     Pop.meow(error);
     logger.error("CREATING FAVORITE", error)
+  }
+}
+
+async function deleteFavorite(favorite) {
+  try {
+    await favoritesService.deleteFavorite(favorite)
+  }
+  catch (error) {
+    Pop.meow(error);
+    logger.error("DELETING FAVORITE", error)
   }
 }
 

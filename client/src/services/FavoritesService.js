@@ -10,7 +10,11 @@ class FavoritesService{
     const recipe = new FavoriteRecipe(response.data)
     AppState.favoriteRecipes.push(recipe)
   }
-
+  
+  async deleteFavorite(favorite) {
+    const response = await api.post(`api/favorites/${favorite}`)
+    logger.log("DELETED FAVORITE", response.data)
+  }
 }
 
 export const favoritesService = new FavoritesService()
