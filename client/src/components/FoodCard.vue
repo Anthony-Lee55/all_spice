@@ -10,9 +10,10 @@ import { AppState } from '@/AppState';
 import RecipeModal from './RecipeModal.vue';
 import { Modal } from 'bootstrap';
 import { ingredientsService } from '@/services/IngredientsService';
+import { favoritesService } from '@/services/FavoritesService';
 
 
-defineProps({
+const props = defineProps({
   recipe: { type: Recipe, required: true }
 })
 
@@ -28,7 +29,7 @@ async function getRecipeById(recipeId) {
   }
   catch (error) {
     Pop.meow(error);
-    logger.log("GETTING RECIPE BY ID", error)
+    logger.error("GETTING RECIPE BY ID", error)
   }
 }
 
@@ -38,7 +39,18 @@ async function getIngredientsForRecipe(recipeId) {
   }
   catch (error) {
     Pop.meow(error);
-    logger.log("GETTING INGREDIENTS FOR RECIPE", error)
+    logger.error("GETTING INGREDIENTS FOR RECIPE", error)
+  }
+}
+
+async function createFavorite() {
+  try {
+    const favoriteData = { recipeId: props.recipe.id }
+    await favoritesService.createFavorite(favoriteData)
+  }
+  catch (error) {
+    Pop.meow(error);
+    logger.error("CREATING FAVORITE", error)
   }
 }
 
@@ -55,8 +67,8 @@ async function getIngredientsForRecipe(recipeId) {
       </div>
       <div>
         <label class="container ">
-          <input checkmark="checked" type="checkbox">
-          <div class="checkmark mt-2 text-shadow">
+          <input @click="createFavorite()" checkmark="checked" type="checkbox">
+          <div class="checkmark mt-2 text-shadow ">
             <svg viewBox="0 0 256 256">
               <rect fill="none" height="256" width="256"></rect>
               <path
